@@ -1,6 +1,6 @@
 package com.example.api.controller;
 
-import com.example.api.services.UserService;
+import com.example.api.user.services.CreateUser;
 import com.example.api.user.User;
 import com.example.api.userDto.UserDto;
 import org.springframework.http.HttpStatus;
@@ -11,16 +11,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class UserController {
 
-    private final UserService userService;
+    private final CreateUser createUser;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(CreateUser createUser) {
+        this.createUser = createUser;
     }
 
     @PostMapping
     public ResponseEntity<User> saveUser(@RequestBody UserDto userDto) throws Exception {
-        var newUser = userService.create(userDto);
+        var newUser = createUser.execute(userDto);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
+
+
+
 
 }
